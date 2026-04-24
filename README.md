@@ -4,6 +4,6 @@ This search engine utilizes movies DB adapted from kaggle movies dataset (5000 r
 
 High level flow of this application:
 
-frontend: moviesadvisor.netlify.app UI
-backend: AWS api Gateway -> AWS lambda -> AWS RDS postgreSQL -> AWS lambda -> AWS api Gateway
+frontend: moviesadvisor.netlify.app UI; \n
+backend: AWS api Gateway -> AWS lambda -> AWS RDS postgreSQL -> AWS lambda -> AWS api Gateway \n
 *possible cold starts for lambda, if not active long time
