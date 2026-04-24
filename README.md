@@ -6,4 +6,4 @@ High level flow of this application, using AWS resources:
 
 moviesadvisor.netlify.app Frontend → API Gateway → Lambda → RDS postgreSQL → Lambda → API Gateway → Frontend  
 
-*possible cold starts for lambda, if not active long time 
+*possible cold starts for lambda, if not active long time
