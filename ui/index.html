@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Demo</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 900px;
+      max-width: 95%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .form-section {
+      flex: 1;
+      text-align: center;
+    }
+
+    .result-section {
+      flex: 1;
+      background: #f4f4f4;
+      border-radius: 10px;
+      padding: 15px;
+      overflow: auto;
+      max-height: 400px;
+
+      /* ✅ HIDDEN BY DEFAULT */
+      display: none;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 13px;
+      color: #444;
+      display: block;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background: #4a4ee6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #3639c9;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="form-section">
+      <h2>Ask movie advisor to find a movie for you</h2>
+
+      <form id="form">
+        <label>Genre</label>
+        <input name="genre" placeholder="e.g. Action" />
+
+        <label>Overview</label>
+        <textarea name="overview" placeholder="Describe your idea"></textarea>
+
+        <label>Keywords</label>
+        <input name="keywords" placeholder="e.g. crime, mystery" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="result-section" id="resultSection">
+      <h2>Try these movies...</h2>
+      <pre id="result"></pre>
+    </div>
+
+  </div>
+
+  <script>
+  const form = document.getElementById("form");
+  const resultSection = document.getElementById("resultSection");
+
+  // 🔑 API key (usage plan only, NOT security)
+  const API_KEY = "bWRcCU4VIs3ojBCtTVQPY4BmB13CMFaB1eRpCzL5";
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      genre: form.genre.value,
+      overview: form.overview.value,
+      keywords: form.keywords.value
+    };
+
+    const res = await fetch("https://agl1qxptb2.execute-api.us-east-1.amazonaws.com/test/hello", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY   // ✅ added here
+      },
+      body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    // Show results panel only when data arrives
+    resultSection.style.display = "block";
+
+    document.getElementById("result").innerText =
+      JSON.stringify(json, null, 2);
+  };
+</script>
+
+</body>
+</html>
