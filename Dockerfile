@@ -5,9 +5,8 @@ ENV HF_HOME=/tmp/huggingface
 ENV HUGGINGFACE_HUB_CACHE=/tmp/huggingface
 ENV SENTENCE_TRANSFORMERS_HOME=/tmp/huggingface
 
-# Install build dependencies for psycopg2 if not using -binary
 
-# ---- System dependencies (IMPORTANT: upgrade libpq for SCRAM) ----
+# ---- System dependencies  ----
 RUN yum update -y && \
     yum install -y \
         gcc \
@@ -15,7 +14,6 @@ RUN yum update -y && \
         postgresql15-devel \
     && yum clean all   
 
-# Copy requirements
 
 RUN pip install --no-cache-dir \
     torch==2.2.2+cpu \
