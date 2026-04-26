@@ -41,9 +41,28 @@ def handler(event, context):
     body = json.loads(event.get("body", "{}"))
     
     # embed the query:
+    pingMode = body.get("ping", None)
     genre = body.get("genre", None)
     overview = body.get("overview", None)
     keywords = body.get("keywords", None)
+    
+    if pingMode:
+        conn = psycopg2.connect(
+        host=os.environ['DB_HOST'],
+        database=os.environ['DB_NAME'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        port=5432
+        )
+        cur = conn.cursor()
+        cur.execute("SELECT title FROM movies_kaggle_db5000 LIMIT 1")
+        cur.close()
+        conn.close()
+        return {'statusCode': 200, 'headers': {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST"
+                },'body': json.dumps({"pingMode":"successful"})}     
 
     combined_input = " ".join(part for part in [genre, overview, keywords] if part)
     if not combined_input:
